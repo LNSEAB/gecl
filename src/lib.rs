@@ -8,7 +8,7 @@ mod vector;
 
 pub use circle::*;
 pub use collision::*;
-pub use color::*;
+pub use color::{Rgba, rgba};
 pub use point::*;
 pub use rect::*;
 pub use size::*;

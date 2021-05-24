@@ -1,5 +1,45 @@
 use crate::*;
 
+pub trait Values: Sized {
+    fn values(value: u32, alpha: Self) -> Rgba<Self>;
+}
+
+impl Values for u8 {
+    #[inline]
+    fn values(value: u32, alpha: u8) -> Rgba<u8> {
+        Rgba::new(
+            ((value >> 16) & 0xff) as u8,
+            ((value >> 8) & 0xff) as u8,
+            (value & 0xff) as u8,
+            alpha,
+        )
+    }
+}
+
+impl Values for f32 {
+    #[inline]
+    fn values(value: u32, alpha: f32) -> Rgba<f32> {
+        Rgba::new(
+            ((value >> 16) & 0xff) as f32 / std::u8::MAX as f32,
+            ((value >> 8) & 0xff) as f32 / std::u8::MAX as f32,
+            (value & 0xff) as f32 / std::u8::MAX as f32,
+            alpha
+        )
+    }
+}
+
+impl Values for f64 {
+    #[inline]
+    fn values(value: u32, alpha: f64) -> Rgba<f64> {
+        Rgba::new(
+            ((value >> 16) & 0xff) as f64 / std::u8::MAX as f64,
+            ((value >> 8) & 0xff) as f64 / std::u8::MAX as f64,
+            (value & 0xff) as f64 / std::u8::MAX as f64,
+            alpha
+        )
+    }
+}
+
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
 #[repr(C)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
@@ -19,6 +59,14 @@ impl<T> Rgba<T> {
     #[inline]
     pub fn map<R>(self, mut f: impl FnMut(T) -> R) -> Rgba<R> {
         Rgba::new(f(self.r), f(self.g), f(self.b), f(self.a))
+    }
+
+    #[inline]
+    pub fn values(value: u32, alpha: T) -> Rgba<T> 
+    where
+        T: Values
+    {
+        <T as Values>::values(value, alpha)
     }
 }
 
@@ -223,6 +271,11 @@ mod tests {
         assert!(rgba(1, 2, 3, 4) == [1, 2, 3, 4]);
         assert!((1, 2, 3, 4) == rgba(1, 2, 3, 4));
         assert!([1, 2, 3, 4] == rgba(1, 2, 3, 4));
+    }
+
+    #[test]
+    fn values_test() {
+        assert!(Rgba::values(0x010203, 255u8) == (1, 2, 3, 255));
     }
 
     #[test]
