@@ -12,4 +12,4 @@ readme = "README.md"
 
 [dependencies]
 num = "0.4.0"
-serde = { version = "1.0.125", optional = true, features = ["derive"] }
+serde = { version = "1.0.136", optional = true, features = ["derive"] }
