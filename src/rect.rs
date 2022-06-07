@@ -72,6 +72,20 @@ impl<T: ToPrimitive> Rect<T> {
     }
 }
 
+impl<T> From<((T, T), (T, T))> for Rect<T> {
+    #[inline]
+    fn from(src: ((T, T), (T, T))) -> Self {
+        Self::new(src.0, src.1)
+    }
+}
+
+impl<T: Copy> From<([T; 2], [T; 2])> for Rect<T> {
+    #[inline]
+    fn from(src: ([T; 2], [T; 2])) -> Self {
+        Self::new(src.0, src.1)
+    }
+}
+
 #[inline]
 pub fn rect<T>(point: impl Into<Point<T>>, size: impl Into<Size<T>>) -> Rect<T> {
     Rect::new(point, size)
@@ -101,5 +115,13 @@ mod tests {
     #[test]
     fn scale_test() {
         assert!(rect((10, 20), (30, 40)).scale(2, 3) == rect((10, 20), (60, 120)));
+    }
+
+    #[test]
+    fn from_test() {
+        let rc = Rect::from(((10, 20), (30, 40)));
+        assert!(rc == rect((10, 20), (30, 40)));
+        let rc = Rect::from(([10, 20], [30, 40]));
+        assert!(rc == rect((10, 20), (30, 40)));
     }
 }
