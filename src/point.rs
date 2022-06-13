@@ -84,6 +84,18 @@ where
     }
 }
 
+impl<T> std::ops::Add<Point<T>> for Point<T>
+where
+    T: std::ops::Add<T, Output = T>,
+{
+    type Output = Self;
+
+    #[inline]
+    fn add(self, rhs: Point<T>) -> Self::Output {
+        Self::new(self.x + rhs.x, self.y + rhs.y)
+    }
+}
+
 impl<T, U> std::ops::Add<U> for Point<T>
 where
     T: std::ops::Add<T, Output = T>,
@@ -217,6 +229,10 @@ mod tests {
 
     #[test]
     fn add_test() {
+        let a = point(1, 2);
+        let b = point(6, 7);
+        let c = a + b;
+        assert!(c == (7, 9));
         let a = point(1, 2);
         let b = size(6, 7);
         let c = a + b;

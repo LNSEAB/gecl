@@ -23,7 +23,7 @@ impl Values for f32 {
             ((value >> 16) & 0xff) as f32 / std::u8::MAX as f32,
             ((value >> 8) & 0xff) as f32 / std::u8::MAX as f32,
             (value & 0xff) as f32 / std::u8::MAX as f32,
-            alpha
+            alpha,
         )
     }
 }
@@ -35,7 +35,7 @@ impl Values for f64 {
             ((value >> 16) & 0xff) as f64 / std::u8::MAX as f64,
             ((value >> 8) & 0xff) as f64 / std::u8::MAX as f64,
             (value & 0xff) as f64 / std::u8::MAX as f64,
-            alpha
+            alpha,
         )
     }
 }
@@ -62,9 +62,9 @@ impl<T> Rgba<T> {
     }
 
     #[inline]
-    pub fn values(value: u32, alpha: T) -> Rgba<T> 
+    pub fn values(value: u32, alpha: T) -> Rgba<T>
     where
-        T: Values
+        T: Values,
     {
         <T as Values>::values(value, alpha)
     }

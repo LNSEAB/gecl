@@ -47,7 +47,7 @@ where
     fn is_crossing(&self, rhs: &Circle<T>) -> bool {
         rhs.is_crossing(self)
     }
-    
+
     #[inline]
     fn contains(&self, _: &Circle<T>) -> bool {
         false
@@ -220,7 +220,7 @@ mod tests {
         assert!(!is_crossing(&a, &point(10, 16)));
         assert!(is_crossing(&point(5, 10), &a));
     }
-    
+
     #[test]
     fn circle_circle_is_crossing() {
         let a = circle((10, 10), 5);
@@ -228,7 +228,7 @@ mod tests {
         assert!(!is_crossing(&a, &circle((20, 10), 4)));
         assert!(is_crossing(&circle((20, 10), 5), &a));
     }
-    
+
     #[test]
     fn rect_point_is_crossing() {
         let a = rect((10, 10), (10, 10));
@@ -240,7 +240,7 @@ mod tests {
         assert!(!is_crossing(&a, &point(9, 10)));
         assert!(is_crossing(&point(15, 15), &a));
     }
-    
+
     #[test]
     fn rect_rect_is_crossing() {
         let a = rect((10, 10), (10, 10));
@@ -251,7 +251,7 @@ mod tests {
         assert!(is_crossing(&a, &rect((20, 20), (10, 10))));
         assert!(!is_crossing(&a, &rect((20, 30), (10, 10))));
     }
-    
+
     #[test]
     fn rect_circle_is_crossing() {
         let a = rect((10, 10), (10, 10));
@@ -278,7 +278,7 @@ mod tests {
         assert!(!contains(&a, &point(1, 1)));
         assert!(!contains(&a, &point(10, 16)));
     }
-    
+
     #[test]
     fn point_contains_circle() {
         let a = point(10, 10);
